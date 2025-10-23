@@ -82,7 +82,6 @@ function SignupScreen({ navigation }) {
   const [parentName, setParentName] = useState("");
   const [childName, setChildName] = useState("");
   const [childAge, setChildAge] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = () => {
