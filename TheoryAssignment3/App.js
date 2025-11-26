@@ -59,3 +59,38 @@ function SignupScreen({ navigation }) {
     </View>
   );
 }
+// -------------------- Login Screen --------------------
+function LoginScreen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    if (email && password) {
+      Alert.alert("Login Successful", `Welcome back!`);
+      navigation.replace("Profile", { userName: "User", userEmail: email }); // Navigate to Profile after login
+    } else {
+      Alert.alert("Error", "Please fill all fields.");
+    }
+  };
+
+  return (
+    <View style={styles.center}>
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <Button title="Login" onPress={handleLogin} />
+    </View>
+  );
+}
