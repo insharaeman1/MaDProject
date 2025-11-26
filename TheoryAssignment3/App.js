@@ -1,108 +1,158 @@
 import React, { useState } from "react";
-import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
-// -------------------- Home Screen --------------------
-function HomeScreen({ navigation }) {
+/* --------------------------------------------------
+   GLOBAL USER STATE (temporary storage)
+-------------------------------------------------- */
+let savedUser = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+/* --------------------------------------------------
+   1. HOME SCREEN
+-------------------------------------------------- */
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.center}>
-      <Text style={styles.title}>Welcome to Polio App</Text>
-      <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
-      <Button title="Login" onPress={() => navigation.navigate("Login")} />
+      <Text style={styles.title}>Polio Vaccination App</Text>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("Signup")}
+      >
+        <Text style={styles.btnText}>Go to Sign Up</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("Login")}
+      >
+        <Text style={styles.btnText}>Go to Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("ParentsGuide")}
+      >
+        <Text style={styles.btnText}>Parents Guide</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("VaccinationSchedule")}
+      >
+        <Text style={styles.btnText}>Vaccination Schedule</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("ChildRegistration")}
+      >
+        <Text style={styles.btnText}>Child Registration</Text>
+      </TouchableOpacity>
     </View>
   );
-}
-// -------------------- Signup Screen --------------------
-function SignupScreen({ navigation }) {
+};
+
+/* --------------------------------------------------
+   2. SIGNUP SCREEN
+-------------------------------------------------- */
+const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = () => {
-    if (name && email && password) {
-      Alert.alert(
-        "Signup Successful",
-        `Account created for ${name}. Please login.`
-      );
-      navigation.replace("Login"); // Navigate to login after signup
-    } else {
-      Alert.alert("Error", "Please fill all fields.");
+    if (!name || !email || !password) {
+      Alert.alert("Error", "Please fill all fields!");
+      return;
     }
+
+    // Save user data
+    savedUser = { name, email, password };
+
+    Alert.alert("Success", "Account created successfully!");
+
+    navigation.navigate("Login");
   };
+
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Signup</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-<TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+    <View style={styles.container}>
+      <Text style={styles.heading}>Create Account</Text>
+
+      <TextInput placeholder="Full Name" style={styles.input} value={name} onChangeText={setName} />
+      <TextInput placeholder="Email" style={styles.input} value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Password" secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+
       <Button title="Signup" onPress={handleSignup} />
+
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.link}>Already have an account? Login</Text>
+      </TouchableOpacity>
     </View>
   );
-}
-// -------------------- Login Screen --------------------
-function LoginScreen({ navigation }) {
+};
+
+/* --------------------------------------------------
+   3. LOGIN SCREEN
+-------------------------------------------------- */
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (email && password) {
-      Alert.alert("Login Successful", `Welcome back!`);
-      navigation.replace("Profile", { userName: "User", userEmail: email }); // Navigate to Profile after login
+    if (email === savedUser.email && password === savedUser.password) {
+      navigation.navigate("Profile", {
+        userName: savedUser.name,
+        userEmail: savedUser.email,
+      });
     } else {
-      Alert.alert("Error", "Please fill all fields.");
+      Alert.alert("Login Failed", "Invalid email or password");
     }
   };
 
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+    <View style={styles.container}>
+      <Text style={styles.heading}>Login</Text>
+
+      <TextInput placeholder="Email" style={styles.input} value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Password" secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+
       <Button title="Login" onPress={handleLogin} />
+
+      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+        <Text style={styles.link}>Create New Account</Text>
+      </TouchableOpacity>
     </View>
   );
-}
-function ProfileScreen({ route, navigation }) {
+};
+
+/* --------------------------------------------------
+   4. PROFILE SCREEN
+-------------------------------------------------- */
+const ProfileScreen = ({ route }) => {
   const { userName, userEmail } = route.params;
 
   return (
     <View style={styles.center}>
-      <Text style={styles.title}>Profile</Text>
+      <Text style={styles.heading}>Your Profile</Text>
       <Text style={styles.info}>Name: {userName}</Text>
       <Text style={styles.info}>Email: {userEmail}</Text>
-      <Button title="Logout" onPress={() => navigation.replace("Home")} />
     </View>
   );
-}
+};
