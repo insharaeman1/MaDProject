@@ -94,3 +94,15 @@ function LoginScreen({ navigation }) {
     </View>
   );
 }
+function ProfileScreen({ route, navigation }) {
+  const { userName, userEmail } = route.params;
+
+  return (
+    <View style={styles.center}>
+      <Text style={styles.title}>Profile</Text>
+      <Text style={styles.info}>Name: {userName}</Text>
+      <Text style={styles.info}>Email: {userEmail}</Text>
+      <Button title="Logout" onPress={() => navigation.replace("Home")} />
+    </View>
+  );
+}
