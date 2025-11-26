@@ -1,4 +1,3 @@
-@ -1,17 +0,0 @@
 import React, { useState } from "react";
 import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
