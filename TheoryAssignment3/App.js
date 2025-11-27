@@ -214,3 +214,18 @@ const ChildRegistrationScreen = () => {
     </View>
   );
 };
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="ParentsGuide" component={ParentsGuideScreen} />
+        <Stack.Screen name="VaccinationSchedule" component={VaccinationScheduleScreen} />
+        <Stack.Screen name="ChildRegistration" component={ChildRegistrationScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
