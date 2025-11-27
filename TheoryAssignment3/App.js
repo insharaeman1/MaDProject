@@ -194,3 +194,23 @@ const VaccinationScheduleScreen = () => {
     </View>
   );
 };
+/* --------------------------------------------------
+   7. CHILD REGISTRATION SCREEN
+-------------------------------------------------- */
+const ChildRegistrationScreen = () => {
+  const [childName, setChildName] = useState("");
+  const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("");
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.heading}>Register Child</Text>
+
+      <TextInput placeholder="Child Name" style={styles.input} value={childName} onChangeText={setChildName} />
+      <TextInput placeholder="Date of Birth (DD/MM/YYYY)" style={styles.input} value={dob} onChangeText={setDob} />
+      <TextInput placeholder="Gender" style={styles.input} value={gender} onChangeText={setGender} />
+
+      <Button title="Register Child" onPress={() => alert("Child Registered Successfully!")} />
+    </View>
+  );
+};
