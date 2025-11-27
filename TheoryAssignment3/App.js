@@ -14,9 +14,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
-/* --------------------------------------------------
-   GLOBAL USER STATE (temporary storage)
--------------------------------------------------- */
+
 let savedUser = {
   name: "",
   email: "",
