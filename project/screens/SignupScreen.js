@@ -78,8 +78,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: "#e6f0ff", // ✅ background color for text fields
-    color: "#000", // text color
+    backgroundColor: "#e6f0ff", 
   },
   signupButton: {
     backgroundColor: "#284b63",
