@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 const PolioCoverageScreen = () => {
-  const [country, setCountry] = useState("PK");
+  const [country, setCountry] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
