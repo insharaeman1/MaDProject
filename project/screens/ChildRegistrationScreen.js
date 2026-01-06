@@ -5,18 +5,16 @@ const ChildRegistrationScreen = () => {
   const [childName, setChildName] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
-  const [records, setRecords] = useState([]); // ✅ To store registered children
+  const [records, setRecords] = useState([]);
 
   const handleRegister = () => {
-    if (!childName || !dob || !gender) return; // simple validation
+    if (!childName || !dob || !gender) return;
 
-    // Add new record
     setRecords([
       ...records,
       { name: childName, dob: dob, gender: gender, id: Date.now().toString() },
     ]);
 
-    // Clear inputs
     setChildName("");
     setDob("");
     setGender("");
@@ -52,7 +50,6 @@ const ChildRegistrationScreen = () => {
         <Text style={styles.buttonText}>Register Child</Text>
       </TouchableOpacity>
 
-      {/* ✅ Display Records */}
       {records.length > 0 && (
         <View style={styles.recordsContainer}>
           <Text style={styles.recordsTitle}>Registered Children:</Text>
