@@ -27,7 +27,6 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.btnText}>Child Registration</Text>
       </TouchableOpacity>
 
-      {/* ✅ FIXED NAME */}
       <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("PolioCoverage")}>
         <Text style={styles.btnText}>Check Polio Coverage</Text>
       </TouchableOpacity>
