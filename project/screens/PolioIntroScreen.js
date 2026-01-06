@@ -17,7 +17,7 @@ const PolioIntroScreen = ({ navigation }) => {
         uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBOH_C-XwfnCN753r3Gdjo8VYl-jizDWqCeg&s",
       }}
       style={styles.background}
-      resizeMode="cover" // ✅ changed from "cover" to "contain"
+      resizeMode="cover" 
     >
       <View style={styles.overlay}>
         <View style={styles.content}>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.4)", // keeps text readable
+    backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
