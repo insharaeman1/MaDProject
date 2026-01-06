@@ -7,7 +7,7 @@ export default StyleSheet.create({
   heading: { fontSize: 26, fontWeight: "bold", marginBottom: 15, color: "#0A6EBD" },
   smallHeading: { fontSize: 20, fontWeight: "bold", marginBottom: 5 },
   input: { borderWidth: 1, borderColor: "#bbb", padding: 12, borderRadius: 8, marginVertical: 10 },
-  btn: { backgroundColor: "#0A6EBD", padding: 15, width: "80%", marginVertical: 10, borderRadius: 10 },
+  btn: { backgroundColor: "#28666e", padding: 15, width: "80%", marginVertical: 10, borderRadius: 10 },
   btnText: { color: "white", textAlign: "center", fontSize: 18, fontWeight: "bold" },
   text: { fontSize: 18, marginBottom: 10 },
   card: { backgroundColor: "white", padding: 15, borderRadius: 10, marginVertical: 10, elevation: 3 },
