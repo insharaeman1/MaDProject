@@ -1,66 +1,97 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState('');
-  const [cnic, setCnic] = useState('');
-  const [contact, setContact] = useState('');
-  const [userType, setUserType] = useState('');
-  const [password, setPassword] = useState('');
+export default function LoginScreen({ navigation }) {
 
-  const handleRegister = () => {
-    if (!name || !cnic || !contact || !userType || !password) {
-      Alert.alert('Error', 'Please fill all fields');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("");
+
+  const handleLogin = async () => {
+
+    if (email === "" || password === "" || userType === "") {
+      Alert.alert("Error", "Please enter all fields");
       return;
     }
 
-    // Here you can save the data to backend or local storage
-    Alert.alert('Success', `User ${name} registered successfully!`);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Navigate to Login / Authentication screen
-    navigation.replace('Login');
+    if (!emailPattern.test(email)) {
+      Alert.alert("Error", "Please enter valid email");
+      return;
+    }
+
+    const storedUser = await AsyncStorage.getItem("user");
+
+    if (!storedUser) {
+      Alert.alert("Error", "No account found. Please signup first.");
+      return;
+    }
+
+    const user = JSON.parse(storedUser);
+
+    if (
+      email === user.email &&
+      password === user.password &&
+      userType === user.userType
+    ) {
+      Alert.alert("Success", "Login Successfully");
+    } else {
+      Alert.alert("Error", "Invalid Login Details");
+    }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Register</Text>
+    <View style={styles.container}>
 
-      <Text style={styles.label}>Name</Text>
-      <TextInput style={styles.input} placeholder="Enter Name" value={name} onChangeText={setName} />
+      <Text style={styles.title}>Login</Text>
 
-      <Text style={styles.label}>CNIC</Text>
-      <TextInput style={styles.input} placeholder="Enter CNIC" value={cnic} onChangeText={setCnic} />
+      <TextInput
+        placeholder="Enter Email"
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+      />
 
-      <Text style={styles.label}>Contact</Text>
-      <TextInput style={styles.input} placeholder="Enter Contact Number" value={contact} onChangeText={setContact} />
+      <TextInput
+        placeholder="Enter Password"
+        style={styles.input}
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
 
-      <Text style={styles.label}>User Type</Text>
-      <View style={styles.pickerContainer}>
-        <Picker selectedValue={userType} onValueChange={setUserType} style={{ color: '#333' }}>
-          <Picker.Item label="Select User Type" value="" />
-          <Picker.Item label="Parent" value="parent" />
-          <Picker.Item label="Supervisor" value="supervisor" />
-          <Picker.Item label="Vaccinator" value="vaccinator" />
-        </Picker>
-      </View>
+      <Picker
+        selectedValue={userType}
+        style={styles.input}
+        onValueChange={(itemValue) => setUserType(itemValue)}
+      >
+        <Picker.Item label="Select User Type" value="" />
+        <Picker.Item label="Child" value="Child" />
+        <Picker.Item label="Parent" value="Parent" />
+        <Picker.Item label="Vaccinator" value="Vaccinator" />
+        <Picker.Item label="Supervisor" value="Supervisor" />
+      </Picker>
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput style={styles.input} placeholder="Enter Password" secureTextEntry value={password} onChangeText={setPassword} />
-
-      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.registerText}>Register</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-    </ScrollView>
+
+      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+        <Text style={styles.link}>Don't have account? Signup</Text>
+      </TouchableOpacity>
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, padding: 20, backgroundColor: '#f2f2f7', justifyContent: 'center' },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#7B61FF', textAlign: 'center', marginBottom: 30 },
-  label: { fontSize: 14, color: '#555', marginBottom: 5 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 12, padding: 15, marginBottom: 15, backgroundColor: '#fff', fontSize: 16 },
-  pickerContainer: { borderWidth: 1, borderColor: '#ccc', borderRadius: 12, marginBottom: 15, overflow: 'hidden', backgroundColor: '#fff' },
-  registerButton: { backgroundColor: '#7B61FF', paddingVertical: 15, borderRadius: 12, alignItems: 'center', marginTop: 10 },
-  registerText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
+  container:{ flex:1, justifyContent:"center", padding:20 },
+  title:{ fontSize:28, textAlign:"center", marginBottom:20 },
+  input:{ borderWidth:1, padding:10, marginBottom:15, borderRadius:5 },
+  button:{ backgroundColor:"green", padding:15, borderRadius:5 },
+  buttonText:{ color:"#fff", textAlign:"center", fontSize:16 },
+  link:{ textAlign:"center", marginTop:15, color:"blue" }
 });
